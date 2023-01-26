@@ -1,1 +1,5 @@
-SECRET_LEVEL_BUTTON = 'SCRT_LVL'
+
+HELP = 'help'
+
+    
+
