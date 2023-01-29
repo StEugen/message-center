@@ -8,9 +8,7 @@ from tgbot.handlers.onboarding import static_text
 from tgbot.handlers.utils.info import extract_user_data_from_update
 from users.models import User
 from tgbot.handlers.onboarding.keyboards import make_keyboard_for_start_command
-
-
-HELP = 'help'
+from tgbot.handlers.onboarding.manage_data import HELP
 
 def command_start(update: Update, context: CallbackContext) -> None:
     u, created = User.get_user_and_created(update, context)
@@ -24,6 +22,12 @@ def command_start(update: Update, context: CallbackContext) -> None:
                               reply_markup=make_keyboard_for_start_command())
 
 
-def input_message_handler(update, context):
-    user_input = update.message.text
-    context.bot.send_message(chat_id=update.message.chat_id, text=user_input)
+def input_message_handler(update: Update, context: CallbackContext) -> None:
+    query = update.callback_query
+    query.answer()
+
+    if query.data == f'{HELP}':
+        text = static_text.test_answer
+        
+        context.bot.send_message(
+            chat_id=update.callback_query.message.chat_id, text=text)
