@@ -29,6 +29,9 @@ def setup_dispatcher(dp):
     dp.add_handler(
         CallbackQueryHandler(onboarding_handlers.input_message_handler)
     )
+    dp.add_handler(
+        MessageHandler(Filters.text, onboarding_handlers.handle_input)
+    )
 
     # admin commands
     dp.add_handler(CommandHandler("admin", admin_handlers.admin))

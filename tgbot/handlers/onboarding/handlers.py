@@ -4,6 +4,7 @@ from django.utils import timezone
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
+
 from tgbot.handlers.onboarding import static_text
 from tgbot.handlers.utils.info import extract_user_data_from_update
 from users.models import User
@@ -27,7 +28,14 @@ def input_message_handler(update: Update, context: CallbackContext) -> None:
     query.answer()
 
     if query.data == f'{HELP}':
-        text = static_text.test_answer
-        
         context.bot.send_message(
-            chat_id=update.callback_query.message.chat_id, text=text)
+            chat_id=update.callback_query.message.chat_id, 
+            text='Please enter your input',
+            reply_to_message_id=update.callback_query.message.message_id)
+
+def handle_input(update: Update, context: CallbackContext) -> None:
+    user_input = update.message.text
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=user_input
+    )
